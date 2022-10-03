@@ -13,42 +13,51 @@
 var canTransform = function (start, end) {
     let i = 0,
         n = start.length,
-        station = [];
+        stationL = 0,
+        stationR = 0;
     while (i < n) {
-        const [ei, si] = [end[i], start[i]];
-        if (station.length == 0) {
-            if (ei == 'L') {
-                if (station[0] == 'R') return false;
-                station.push('L');
+        if (stationL == 0 && stationR == 0) {
+            if (end[i] == 'L') {
+                if (stationR) {
+                    return false;
+                }
+                stationL++;
             }
-            if (si == 'R') {
-                if (station[0] == 'L') return false;
-                station.push('R');
+            if (start[i] == 'R') {
+                if (stationL) {
+                    return false;
+                }
+                stationR++;
             }
-            if (ei == 'R') {
-                if (station.pop() != 'R') return false;
+            if (end[i] == 'R') {
+                stationR--;
             }
-            if (si == 'L') {
-                if (station.pop() != 'L') return false;
+            if (start[i] == 'L') {
+                stationL--;
             }
         } else {
-            if (ei == 'R') {
-                if (station.pop() != 'R') return false;
+            if (end[i] == 'R') {
+                stationR--;
             }
-            if (si == 'L') {
-                if (station.pop() != 'L') return false;
+            if (start[i] == 'L') {
+                stationL--;
             }
-            if (si == 'R') {
-                if (station[0] == 'L') return false;
-                station.push('R');
+            if (end[i] == 'L') {
+                if (stationR) {
+                    return false;
+                }
+                stationL++;
             }
-            if (ei == 'L') {
-                if (station[0] == 'R') return false;
-                station.push('L');
+            if (start[i] == 'R') {
+                if (stationL) {
+                    return false;
+                }
+                stationR++;
             }
         }
+        if (stationL < 0 || stationR < 0) return false;
         i++;
     }
-    return station.length == 0;
+    return stationL == 0 && stationR == 0;
 };
 // @lc code=end
