@@ -10,14 +10,6 @@
  * @return {boolean}
  */
 var checkOnesSegment = function (s) {
-    let state = false;
-    for (const v of s) {
-        if (v == 1 && state) {
-            return false;
-        } else if (v == 0) {
-            state = true;
-        }
-    }
-    return true;
+    return !s.includes('01');
 };
 // @lc code=end
